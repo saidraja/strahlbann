@@ -6,11 +6,14 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.svg.Diagram;
-import org.newdawn.slick.svg.SimpleDiagramRenderer;
 
 import de.rayban.core.Player;
 
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class MainGame extends BasicGame {
 	
 	private Player p;
