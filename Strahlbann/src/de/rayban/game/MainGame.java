@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import de.rayban.core.EntityManager;
 import de.rayban.core.Player;
 
 /**
@@ -15,8 +16,8 @@ import de.rayban.core.Player;
  *
  */
 public class MainGame extends BasicGame {
-	
-	private Player p;
+		
+	private EntityManager manager;
 	
     public MainGame() {
         super("RayBan");
@@ -28,22 +29,22 @@ public class MainGame extends BasicGame {
     	int height = container.getHeight();
     	int width = container.getWidth();
     	
-    	p = new Player(40, width/2, height, Color.cyan);
+    	manager = new EntityManager(container);
+    	Player p = new Player(40, width/2, height, Color.cyan);
+    	manager.add(p);
     }
 
     @Override
     public void update(GameContainer container, int delta)
             throws SlickException {
-    	
+    	manager.update(delta);
     }
 
     @Override
     public void render(GameContainer container, Graphics g)
             throws SlickException {
         g.drawString("RayBan", 0, 100);
-        int xMove = container.getInput().getAbsoluteMouseX();
-        int yMove = container.getInput().getAbsoluteMouseY();
-		p.draw(g, xMove, yMove);
+        manager.render(g);
     }
     
     public static void main(String[] args) {
