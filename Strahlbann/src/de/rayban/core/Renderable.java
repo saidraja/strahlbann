@@ -14,4 +14,10 @@ public interface Renderable {
 	 * @param g
 	 */
 	public void draw(final Graphics g);
+	
+	/**
+	 * 
+	 * @return rendern oder nicht? Wenn false wir das Rendern ausgesetzt
+	 */
+	public boolean render();
 }
