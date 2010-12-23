@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-
-import de.rayban.controll.KeyboardAdapter;
-import de.rayban.controll.MouseAdapter;
+import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.MouseListener;
+import org.newdawn.slick.state.GameState;
 
 /**
  * Simpler Entwurf eines Managers für Spiel-Entities.
@@ -31,12 +31,12 @@ public class EntityManager {
 	}
 
 	public void add(final Entity entity) {
-		final MouseAdapter mouseEvents = entity.receiveMouseEvents();
+		final MouseListener mouseEvents = entity.receiveMouseEvents();
 		if (mouseEvents != null) {
 			container.getInput().addMouseListener(mouseEvents);
 		}
 		
-		final KeyboardAdapter keyEvents = entity.receiveKeyboardEvents();
+		final KeyListener keyEvents = entity.receiveKeyboardEvents();
 		if(keyEvents != null) {
 			container.getInput().addKeyListener(keyEvents);
 		}
@@ -52,6 +52,24 @@ public class EntityManager {
 		}
 	}
 
+	public void render(final Graphics g, final GameState gs) {
+		for(Entity e : entities) {
+			if(e.render()) {
+				int[] visibleForState = e.visibleForState();
+				if(visibleForState != null){
+					for(int id : visibleForState) {
+						if(id == gs.getID()){
+							e.draw(g);
+							break;
+						}
+					}
+					continue;
+				}
+				e.draw(g); // wenn keine GameState-ID angegeben wurde rendern wir auf alle Fälle
+			}
+		}
+	}
+	
 	public void update(final int delta) {
 		List<Entity> entitiesToDestroy = new ArrayList<Entity>();
 		for (Entity e : entities) {

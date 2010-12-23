@@ -4,11 +4,9 @@ import java.awt.Point;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
-
-import de.rayban.controll.KeyboardAdapter;
-import de.rayban.controll.MouseAdapter;
 
 /**
  * Die Spielerfigur.
@@ -16,7 +14,7 @@ import de.rayban.controll.MouseAdapter;
  * @author Daniel
  * 
  */
-public class Player extends MouseAdapter implements Entity {
+public class Player extends BaseEntity {
 	private static final int aimLength = 60;
 
 	private Circle body;
@@ -36,6 +34,7 @@ public class Player extends MouseAdapter implements Entity {
 		playerColor = color;
 
 		aim = new Line(centerX, centerY, centerX, centerY - aimLength);
+		setStateVisibility(0, 1);
 	}
 
 	@Override
@@ -44,14 +43,17 @@ public class Player extends MouseAdapter implements Entity {
 		g.setAntiAlias(true);
 		g.setColor(playerColor);
 		body.setCenterX(mousePosition.x);
+		
+		
+		g.pushTransform();
 		float angle = 90 - (180 / body.getCenterY()) * mousePosition.y;
 		g.rotate(body.getCenterX(), body.getCenterY(), angle);
-		g.pushTransform();
 		aim.setCenterX(mousePosition.x);
-		g.popTransform();
 		g.draw(aim);
 		g.draw(body);
 		g.setColor(currentColor);
+		
+		g.popTransform();
 	}
 
 	/**
@@ -63,29 +65,9 @@ public class Player extends MouseAdapter implements Entity {
 		mousePosition.x = newx;
 		mousePosition.y = newy;
 	}
-
+	
 	@Override
-	public boolean destroy() {
-		return false; // niemals zerstören
-	}
-
-	@Override
-	public boolean render() {
-		return true; // Immer anzeigen
-	}
-
-	@Override
-	public MouseAdapter receiveMouseEvents() {
+	public MouseListener receiveMouseEvents() {
 		return this;
-	}
-
-	@Override
-	public void update(int delta) {
-		// nichts zu tun hier
-	}
-
-	@Override
-	public KeyboardAdapter receiveKeyboardEvents() {
-		return null; // hört nicht auf Tastatureingaben
 	}
 }

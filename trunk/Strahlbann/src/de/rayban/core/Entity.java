@@ -1,7 +1,7 @@
 package de.rayban.core;
 
-import de.rayban.controll.KeyboardAdapter;
-import de.rayban.controll.MouseAdapter;
+import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.MouseListener;
 
 /**
  * Entität der Spielwelt
@@ -10,12 +10,6 @@ import de.rayban.controll.MouseAdapter;
  *
  */
 public interface Entity extends Renderable {
-	/**
-	 * 
-	 * @return rendern oder nicht? Wenn false wir das Rendern ausgesetzt
-	 */
-	public boolean render();
-	
 	/**
 	 * 
 	 * @return Wenn true entfernt der EntityManager die Entität aus dem Scene-Graph
@@ -28,17 +22,21 @@ public interface Entity extends Renderable {
 	 * dann den Adapter (also indirekt die Entität) beim MouseListener des GameContainers.
 	 * @return MouseAdapter wenn vorhanden.
 	 */
-	public MouseAdapter receiveMouseEvents();
+	public MouseListener receiveMouseEvents();
 	
 	/**
 	 * Siehe receiveMouseEvents
 	 * @return
 	 */
-	public KeyboardAdapter receiveKeyboardEvents();
+	public KeyListener receiveKeyboardEvents();
 	
 	/**
 	 * Wird im Update-Zyklus des GamesContainers durch den Entity-Manger aufgerufen.
 	 * @param delta
 	 */
 	public void update(final int delta);
+	
+	public int[] visibleForState();
+	
+	public Entity setStateVisibility(int ... stateIDs);
 }
