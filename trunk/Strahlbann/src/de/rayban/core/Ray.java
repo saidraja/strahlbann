@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Line;
  * @author Stefan
  */
  
-public class Ray {
+public class Ray extends BaseEntity {
 
 	private final Integer FLY = 0;
 	private final Integer ABSORB = 1;
@@ -48,7 +48,7 @@ public class Ray {
     /**
     * Momentan nur Spezialfall Spiegelung an X-Achse
     */
-    protected void moveStep (final Graphics g) {
+    public void draw (final Graphics g) {
         double currentLength = 0;
         short epsilon = 2;
 
@@ -98,10 +98,4 @@ public class Ray {
             mode = ABSORB;
         }
     }
-
-//    protected function create () : Node {
-//        Group {
-//            content: [ray]
-//        }
-//    }
 }
