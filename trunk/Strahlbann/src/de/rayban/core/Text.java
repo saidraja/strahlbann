@@ -54,4 +54,9 @@ public class Text implements Entity {
 		return null;
 	}
 
+	@Override
+	public Hitable hitable() {
+		return null;
+	}
+
 }

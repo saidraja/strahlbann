@@ -1,11 +1,5 @@
 package de.rayban.core;
 
-/*
- * Ray.fx
- *
- * Created on 12.02.2010, 20:42:40
- */
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
@@ -32,6 +26,8 @@ public class Ray extends BaseEntity {
     
     private Line ray;
     
+    private Hitable hitable = new EntityHitListener();
+    
     public Ray(final Integer xDir, final Integer yDir, final Color color, final Integer length, final Integer xPosStart){
     	this.color = color;
     	this.length = length;
@@ -45,7 +41,12 @@ public class Ray extends BaseEntity {
         		0f);
     }
     
-    /**
+    @Override
+	public Hitable hitable() {
+		return hitable;
+	}
+
+	/**
     * Momentan nur Spezialfall Spiegelung an X-Achse
     */
     public void draw (final Graphics g) {
