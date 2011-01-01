@@ -103,4 +103,9 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	@Override
 	public void keyReleased(int key, char c) {	
 	}
+
+	@Override
+	public Hitable hitable() {
+		return null;
+	}
 }

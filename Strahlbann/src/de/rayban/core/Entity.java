@@ -30,6 +30,8 @@ public interface Entity extends Renderable {
 	 */
 	public KeyListener receiveKeyboardEvents();
 	
+	public Hitable hitable();
+	
 	/**
 	 * Wird im Update-Zyklus des GamesContainers durch den Entity-Manger aufgerufen.
 	 * @param delta

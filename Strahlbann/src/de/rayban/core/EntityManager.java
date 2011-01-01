@@ -1,6 +1,7 @@
 package de.rayban.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -82,5 +83,9 @@ public class EntityManager {
 		for(Entity e : entitiesToDestroy) {
 			entities.remove(e);
 		}
+	}
+	
+	public Iterator<Entity> entitiesIterator() {
+		return entities.iterator();
 	}
 }
