@@ -10,8 +10,6 @@ import de.rayban.core.EntityManager;
 
 public abstract class StrahlBannGameState extends BasicGameState {
 
-	private EntityManager manager;
-	
 	@Override
 	public abstract int getID();
 
@@ -25,13 +23,13 @@ public abstract class StrahlBannGameState extends BasicGameState {
 	public final void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		StrahlBann sb = (StrahlBann) game;
-		manager = sb.getEntityManager();
 		init(container, sb);
 	}
 	
 	@Override
 	public final void render(GameContainer container, StateBasedGame game, Graphics g) {
-		manager.render(g, game.getCurrentState());
+		StrahlBann sb = (StrahlBann) game;
+		sb.getEntityManager().render(g, game.getCurrentState());
 		render(container, (StrahlBann)game, g);
 	}
 
@@ -40,9 +38,4 @@ public abstract class StrahlBannGameState extends BasicGameState {
 			throws SlickException {
 		update(container, (StrahlBann)game, delta);
 	}
-	
-	public EntityManager getManager() {
-		return manager;
-	}
-
 }
