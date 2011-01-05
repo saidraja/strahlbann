@@ -20,4 +20,7 @@ public interface Hitable {
 	
 	/** die Punkte die es für den Treffer gibt, dynamisch berechnet */
 	public long hitScore();
+	
+	/** setzt den internen Status (Score, Trefferzeiten, etc.) des Hitables zurück */
+	public void reset();
 }

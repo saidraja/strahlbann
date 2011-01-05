@@ -20,20 +20,20 @@ public class StrahlBann extends StateBasedGame {
 
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
-		if(getCurrentStateID() == 0) {
-			enterState(1);
-		}
-		
-		if(getCurrentStateID() == 1) {
-			enterState(0);
-		}
+//		if(getCurrentStateID() == 0) {
+//			enterState(1);
+//		}
+//		
+//		if(getCurrentStateID() == 1) {
+//			enterState(0);
+//		}
 	}
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new MenuState());
 		addState(new InGameState());
-		
+		enterState(1);
 		int height = container.getHeight();
     	int width = container.getWidth();
 		

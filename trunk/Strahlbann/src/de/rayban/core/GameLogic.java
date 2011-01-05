@@ -1,5 +1,7 @@
 package de.rayban.core;
 
+import java.util.Iterator;
+
 /**
  * Hier findet alles seinen Platz was das Spiel steuert.
  * 
@@ -22,20 +24,24 @@ public class GameLogic {
 	public static GameLogic start(EntityManager entityManager){
 		instance = new GameLogic();
 		instance.manager = entityManager;
+		instance.manager.add(new Enemy());
 		return instance;
 	}
 	
 	/**
 	 * Spiel-Status aktualisieren.
+	 * @param delta TODO
 	 */
-	public void update(){
+	public void update(int delta){
 		updateScore();
+		manager.update(delta);
 	}
 
 	private void updateScore() {
-		while(manager.entitiesIterator().hasNext()) {
-			final Entity entity = manager.entitiesIterator().next();
-			if(entity.hitable() != null) {
+		final Iterator<Entity> entitiesIterator = manager.entitiesIterator();
+		while(entitiesIterator.hasNext()) {
+			final Entity entity = entitiesIterator.next();
+			if(entity.hitable() != null && entity.hitable().hitReceived()) {
 				score += entity.hitable().hitScore();
 			}
 		}
@@ -46,5 +52,9 @@ public class GameLogic {
 	//
 	public EntityManager getEntityManager() {
 		return manager;
+	}
+
+	public String currentScore() {
+		return String.valueOf(score);
 	}
 }
