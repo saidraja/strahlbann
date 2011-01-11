@@ -14,9 +14,14 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	private int [] visibleForStates;
 	
+	private boolean destroyed = false;
+	
 	@Override
 	public boolean destroy() {
-		return false;
+		if(destroyed == false) {
+			destroyed = true;
+		}
+		return destroyed;
 	}
 
 	@Override
@@ -106,6 +111,12 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	@Override
 	public Hitable hitable() {
+		return null;
+	}
+
+	@Override
+	public GameAreaAware gameAreaAware() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

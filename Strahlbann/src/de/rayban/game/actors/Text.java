@@ -5,16 +5,23 @@ import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 
 import de.rayban.core.Entity;
+import de.rayban.core.GameAreaAware;
 import de.rayban.core.Hitable;
 
 public class Text implements Entity {
 
+	@Override
+	public GameAreaAware gameAreaAware() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private String text = "";
-	
+
 	public Text(final String text) {
 		this.text = text;
 	}
-	
+
 	@Override
 	public boolean destroy() {
 		return false;
@@ -31,7 +38,7 @@ public class Text implements Entity {
 	}
 
 	@Override
-	public void update(int delta) {
+	public void update(final int delta) {
 		// TODO Auto-generated method stub
 
 	}
@@ -42,7 +49,7 @@ public class Text implements Entity {
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void draw(final Graphics g) {
 		g.drawString(text, 10, 100);
 	}
 
@@ -52,7 +59,7 @@ public class Text implements Entity {
 	}
 
 	@Override
-	public Entity setStateVisibility(int... stateIDs) {
+	public Entity setStateVisibility(final int... stateIDs) {
 		// TODO Auto-generated method stub
 		return null;
 	}
