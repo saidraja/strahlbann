@@ -31,6 +31,8 @@ public interface Entity extends Renderable {
 	public KeyListener receiveKeyboardEvents();
 	
 	public Hitable hitable();
+
+	public GameAreaAware gameAreaAware();
 	
 	/**
 	 * Wird im Update-Zyklus des GamesContainers durch den Entity-Manger aufgerufen.

@@ -6,8 +6,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.rayban.core.EntityManager;
-
 public abstract class StrahlBannGameState extends BasicGameState {
 
 	@Override
