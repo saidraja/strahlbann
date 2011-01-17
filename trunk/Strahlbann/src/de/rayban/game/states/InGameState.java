@@ -7,9 +7,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import de.rayban.core.level.Level;
+import de.rayban.core.level.LevelLoader;
 import de.rayban.core.logic.GameLogic;
 import de.rayban.game.StrahlBann;
-import de.rayban.game.actors.Player;
 
 /**
  * Hier wird das Spiel ansich gerendert.
@@ -20,39 +21,49 @@ public class InGameState extends StrahlBannGameState {
 
 	private GameLogic gameLogic;
 
+	private int currentLevelCounter = 1;
+
+	private Level currentLevel;
+
 	public InGameState(final int id) {
 		super(id);
 	}
 
 	@Override
-	public void render(final GameContainer container, final StrahlBann game, final Graphics g) {
-		g.drawString("InGame", 100, 10);
-		g.drawString("Score: " + gameLogic.currentScore(), 100, 50);
-	}
-
-	@Override
-	public void update(final GameContainer container, final StrahlBann game, final int delta){
-		gameLogic.update(delta);
-	}
-
-	@Override
 	public void init(final GameContainer container, final StrahlBann game) {
+		// GameLogic initialisieren
 		gameLogic = GameLogic.start(game.getEntityManager());
 
-		final int height = container.getHeight();
-    	final int width = container.getWidth();
+		currentLevel = LevelLoader.loadLevel(currentLevelCounter);
+		currentLevel.initLevel(game, this, gameLogic);
+	}
 
-    	final Player p = new Player(40, width/2, height, Color.cyan);
-//    	p.setStateVisibility(StrahlBann.IN_GAME_STATE);
+	@Override
+	public void render(final GameContainer container, final StrahlBann game,
+			final Graphics g) {
+		currentLevel.render(container,game, g);
 
-    	game.getEntityManager().add(p);
+	}
+
+	@Override
+	public void update(final GameContainer container, final StrahlBann game,
+			final int delta) {
+		gameLogic.update(delta);
+		currentLevel.update(container, game, delta);
+
+		if (currentLevel.isLevelCompleted() == true) {
+			currentLevelCounter++;
+			currentLevel = LevelLoader.loadLevel(currentLevelCounter);
+			currentLevel.initLevel(game, this, gameLogic);
+		}
 	}
 
 	@Override
 	public void keyReleased(final int key, final char c) {
 		super.keyReleased(key, c);
 		if (key == Input.KEY_ESCAPE) {
-			game.enterState(StrahlBann.MAIN_MENU_STATE, new FadeOutTransition(Color.white), new FadeInTransition(Color.black));
+			game.enterState(StrahlBann.MAIN_MENU_STATE, new FadeOutTransition(
+					Color.black), new FadeInTransition(Color.black));
 		}
 	}
 }

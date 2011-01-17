@@ -11,27 +11,26 @@ import de.rayban.core.Hitable;
 /**
  * @author Stefan
  */
- 
 public class Ray extends BaseEntity {
 
 	private final Integer FLY = 0;
 	private final Integer ABSORB = 1;
 	private final Integer REFLECT = 2;
 
-	
-    private Color color;
-    private Integer length;
-    private Integer xPosStart;
-    private Integer xDir;
+
+    private final Color color;
+    private final Integer length;
+    private final Integer xPosStart;
+    private final Integer xDir;
     private Integer yDir;
     private Integer mode = FLY;
 
     private final Integer r;
-    
-    private Line ray;
-    
-    private Hitable hitable = new EntityHitListener();
-    
+
+    private final Line ray;
+
+    private final Hitable hitable = new EntityHitListener();
+
     public Ray(final Integer xDir, final Integer yDir, final Color color, final Integer length, final Integer xPosStart){
     	this.color = color;
     	this.length = length;
@@ -44,7 +43,7 @@ public class Ray extends BaseEntity {
         		xPosStart.floatValue(),
         		0f);
     }
-    
+
     @Override
 	public Hitable hitable() {
 		return hitable;
@@ -53,15 +52,16 @@ public class Ray extends BaseEntity {
 	/**
     * Momentan nur Spezialfall Spiegelung an X-Achse
     */
-    public void draw (final Graphics g) {
+    @Override
+	public void draw (final Graphics g) {
         double currentLength = 0;
-        short epsilon = 2;
+        final short epsilon = 2;
 
         g.pushTransform();
-        
+
         if (mode != FLY) {
-            double x = java.lang.Math.pow(ray.getX1() - ray.getX2(), 2);
-            double y = java.lang.Math.pow(ray.getY1() - ray.getY2(), 2);
+            final double x = java.lang.Math.pow(ray.getX1() - ray.getX2(), 2);
+            final double y = java.lang.Math.pow(ray.getY1() - ray.getY2(), 2);
             currentLength = java.lang.Math.sqrt(x+y);
             if (currentLength >= length && mode == REFLECT) {
 //                ray.translateX += xDir;
@@ -93,7 +93,7 @@ public class Ray extends BaseEntity {
 //            ray.endY += yDir;
         	ray.set(ray.getX1(), ray.getY1(), ray.getX2()+xDir, ray.getY2()+yDir);
         }
-        
+
         g.draw(ray);
         g.popTransform();
     }

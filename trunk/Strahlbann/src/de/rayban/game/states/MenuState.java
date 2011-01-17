@@ -24,7 +24,7 @@ import de.rayban.game.StrahlBann;
 public class MenuState extends StrahlBannGameState {
 
 	/** menu entries to display */
-	public List<String> menuOptions = Arrays.asList("Start Game", "Options", "High Score", "About StrahlBann", "Quit Game");
+	public List<String> menuOptions = Arrays.asList("1 - Start Game", "2 - Options", "3 - High Score", "4 - About StrahlBann", "ESC - Quit Game");
 
 	/** background image of main menu */
 	private Image background = null;

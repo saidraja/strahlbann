@@ -1,7 +1,7 @@
 package de.rayban.core;
 
 /**
- * 
+ *
  * @author Daniel
  *
  */
@@ -11,7 +11,7 @@ public class EntityHitListener implements Hitable {
 	 * signalisierte Treffer zu empfangen
 	 */
 	public long readyToHitTime;
-	
+
 	/**
 	 * System.currentTimeMillis wann das Hitable als getroffen markiert wurde
 	 */
@@ -52,5 +52,4 @@ public class EntityHitListener implements Hitable {
 		hitTime = 0L;
 		readyToHitTime = 0L;
 	}
-
 }

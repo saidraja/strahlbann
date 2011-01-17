@@ -6,17 +6,18 @@ import org.newdawn.slick.MouseListener;
 import de.rayban.core.BaseEntity;
 import de.rayban.core.EntityHitListener;
 import de.rayban.core.Hitable;
+import de.rayban.game.StrahlBann;
 
 /**
- * 
+ *
  * @author Daniel
  *
  */
 public class Enemy extends BaseEntity {
-	private Hitable hitable = new EntityHitListener();
-	
+	private final Hitable hitable = new EntityHitListener();
+
 	@Override
-	public void draw(Graphics g) {
+	public void draw(final Graphics g) {
 		g.drawOval(20, 20, 40, 40);
 	}
 
@@ -36,8 +37,12 @@ public class Enemy extends BaseEntity {
 	}
 
 	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
+	public void mouseClicked(final int button, final int x, final int y, final int clickCount) {
 		hitable.hit();
 	}
 
+	@Override
+	public int[] visibleForState() {
+		return new int[]{StrahlBann.IN_GAME_STATE};
+	}
 }
