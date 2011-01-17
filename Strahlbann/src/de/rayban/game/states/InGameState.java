@@ -43,7 +43,7 @@ public class InGameState extends StrahlBannGameState {
     	final int width = container.getWidth();
 
     	final Player p = new Player(40, width/2, height, Color.cyan);
-    	p.setStateVisibility(StrahlBann.IN_GAME_STATE);
+//    	p.setStateVisibility(StrahlBann.IN_GAME_STATE);
 
     	game.getEntityManager().add(p);
 	}
