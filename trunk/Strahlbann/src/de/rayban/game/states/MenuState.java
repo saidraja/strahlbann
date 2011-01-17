@@ -77,7 +77,7 @@ public class MenuState extends StrahlBannGameState {
 		super.keyReleased(key, c);
 
 		if (key == Input.KEY_1) {
-			game.enterState(StrahlBann.IN_GAME_STATE, new FadeOutTransition(Color.cyan), new FadeInTransition(Color.blue));
+			game.enterState(StrahlBann.IN_GAME_STATE, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 		}
 
 		if (key == Input.KEY_ESCAPE) {
