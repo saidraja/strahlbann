@@ -11,6 +11,7 @@ import de.rayban.game.StrahlBann;
 public abstract class StrahlBannGameState extends BasicGameState {
 
 	protected GameContainer container;
+
 	protected StateBasedGame game;
 
 	int stateId;
@@ -24,11 +25,6 @@ public abstract class StrahlBannGameState extends BasicGameState {
 		return stateId;
 	}
 
-	public abstract void init(GameContainer container, StrahlBann game);
-
-	public abstract void render(GameContainer container, StrahlBann game, Graphics g);
-
-	public abstract void update(GameContainer container, StrahlBann game, int delta);
 
 	@Override
 	public final void init(final GameContainer container, final StateBasedGame game)
@@ -41,14 +37,26 @@ public abstract class StrahlBannGameState extends BasicGameState {
 
 	@Override
 	public final void render(final GameContainer container, final StateBasedGame game, final Graphics g) {
-		final StrahlBann sb = (StrahlBann) game;
-		sb.getEntityManager().render(g, this);
+		// first render state (background etc.)
 		render(container, (StrahlBann)game, g);
+
+		final StrahlBann sb = (StrahlBann) game;
+		sb.getEntityManager().render(g, game.getCurrentState());
 	}
 
 	@Override
 	public final void update(final GameContainer container, final StateBasedGame game, final int delta)
 			throws SlickException {
+		// first update state
 		update(container, (StrahlBann)game, delta);
+
+		final StrahlBann sb = (StrahlBann) game;
+		sb.getEntityManager().update(delta);
 	}
+
+	public abstract void init(GameContainer container, StrahlBann game);
+
+	public abstract void render(GameContainer container, StrahlBann game, Graphics g);
+
+	public abstract void update(GameContainer container, StrahlBann game, int delta);
 }

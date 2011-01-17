@@ -6,22 +6,23 @@ import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 
 /**
- * 
+ *
  * @author Daniel
  *
  */
 public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	private int [] visibleForStates;
-	
-	private boolean destroyed = false;
-	
+
+	private final boolean destroyed = false;
+
 	@Override
 	public boolean destroy() {
-		if(destroyed == false) {
-			destroyed = true;
-		}
-		return destroyed;
+//		if(destroyed == false) {
+//			destroyed = true;
+//		}
+//		return destroyed;
+		return false;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	}
 
 	@Override
-	public void update(int delta) {
+	public void update(final int delta) {
 		// NOOP
 	}
 
@@ -45,7 +46,7 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void draw(final Graphics g) {
 		// NOOP
 	}
 
@@ -55,33 +56,33 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	}
 
 	@Override
-	public Entity setStateVisibility(int... stateIDs) {
+	public Entity setStateVisibility(final int... stateIDs) {
 		visibleForStates = stateIDs;
 		return this;
 	}
 
 	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
+	public void mouseClicked(final int button, final int x, final int y, final int clickCount) {
 	}
 
 	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {		
+	public void mouseDragged(final int oldx, final int oldy, final int newx, final int newy) {
 	}
 
 	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+	public void mouseMoved(final int oldx, final int oldy, final int newx, final int newy) {
 	}
 
 	@Override
-	public void mousePressed(int button, int x, int y) {
+	public void mousePressed(final int button, final int x, final int y) {
 	}
 
 	@Override
-	public void mouseReleased(int button, int x, int y) {
+	public void mouseReleased(final int button, final int x, final int y) {
 	}
 
 	@Override
-	public void mouseWheelMoved(int change) {	
+	public void mouseWheelMoved(final int change) {
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	}
 
 	@Override
-	public void inputStarted() {	
+	public void inputStarted() {
 	}
 
 	@Override
@@ -98,15 +99,15 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	}
 
 	@Override
-	public void setInput(Input input) {		
+	public void setInput(final Input input) {
 	}
 
 	@Override
-	public void keyPressed(int key, char c) {
+	public void keyPressed(final int key, final char c) {
 	}
 
 	@Override
-	public void keyReleased(int key, char c) {	
+	public void keyReleased(final int key, final char c) {
 	}
 
 	@Override
@@ -116,7 +117,6 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	@Override
 	public GameAreaAware gameAreaAware() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

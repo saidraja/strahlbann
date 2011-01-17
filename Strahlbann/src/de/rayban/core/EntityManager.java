@@ -11,42 +11,52 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.state.GameState;
 
 /**
- * Simpler Entwurf eines Managers für Spiel-Entities.
- * Regelt die Registrierung von Listenern von Mouse- und Keyboard-Events und
- * das Rendern sowie Updaten der Entites. Bietet zusätzlich Möglichkeit Entities
- * bei Bedarf aus dem Scene-Graph zu löschen.
- * 
+ * Simpler Entwurf eines Managers für Spiel-Entities. Regelt die Registrierung
+ * von Listenern von Mouse- und Keyboard-Events und das Rendern sowie Updaten
+ * der Entites. Bietet zusätzlich Möglichkeit Entities bei Bedarf aus dem
+ * Scene-Graph zu löschen.
+ *
  * @author Daniel
  *
  */
-public class EntityManager {
-	private GameContainer container;
+public class EntityManager implements Iterable<Entity> {
+
+	private final GameContainer container;
 
 	/**
-	 * Der "Scene-Graph". Simple Liste aller Entities die gerendert werden sollen.
+	 * Der "Scene-Graph". Simple Liste aller Entities die gerendert werden
+	 * sollen.
 	 */
-	private List<Entity> entities = new ArrayList<Entity>();
+	private final List<Entity> entities = new ArrayList<Entity>();
 
 	public EntityManager(final GameContainer container) {
 		this.container = container;
 	}
 
-	public void add(final Entity entity) {
-		final MouseListener mouseEvents = entity.receiveMouseEvents();
-		if (mouseEvents != null) {
-			container.getInput().addMouseListener(mouseEvents);
+	/**
+	 * Adds one or more entities to manager and registers new entities as
+	 * listener
+	 *
+	 * @param entitiesToAdd new entities
+	 */
+	public void add(final Entity... entitiesToAdd) {
+		for (final Entity entity : entitiesToAdd) {
+			final MouseListener mouseEvents = entity.receiveMouseEvents();
+			if (mouseEvents != null) {
+				container.getInput().addMouseListener(mouseEvents);
+			}
+
+			final KeyListener keyEvents = entity.receiveKeyboardEvents();
+			if (keyEvents != null) {
+				container.getInput().addKeyListener(keyEvents);
+			}
+
+			this.entities.add(entity);
 		}
-		
-		final KeyListener keyEvents = entity.receiveKeyboardEvents();
-		if(keyEvents != null) {
-			container.getInput().addKeyListener(keyEvents);
-		}
-		
-		this.entities.add(entity);
 	}
 
 	public void render(final Graphics g) {
-		for (Entity e : entities) {
+		for (final Entity e : entities) {
 			if (e.render()) {
 				e.draw(g);
 			}
@@ -54,38 +64,40 @@ public class EntityManager {
 	}
 
 	public void render(final Graphics g, final GameState gs) {
-		for(Entity e : entities) {
-			if(e.render()) {
-				int[] visibleForState = e.visibleForState();
-				if(visibleForState != null){
-					for(int id : visibleForState) {
-						if(id == gs.getID()){
+		for (final Entity e : entities) {
+			if (e.render()) {
+				final int[] visibleForState = e.visibleForState();
+				if (visibleForState != null) {
+					for (final int id : visibleForState) {
+						if (id == gs.getID()) {
 							e.draw(g);
 							break;
 						}
 					}
 					continue;
 				}
-				e.draw(g); // wenn keine GameState-ID angegeben wurde rendern wir auf alle Fälle
+				e.draw(g); // wenn keine GameState-ID angegeben wurde rendern
+							// wir auf alle Fälle
 			}
 		}
 	}
-	
+
 	public void update(final int delta) {
-		List<Entity> entitiesToDestroy = new ArrayList<Entity>();
-		for (Entity e : entities) {
-			if(e.destroy()) {
+		final List<Entity> entitiesToDestroy = new ArrayList<Entity>();
+		for (final Entity e : entities) {
+			if (e.destroy()) {
 				entitiesToDestroy.add(e);
 			}
 			e.update(delta);
 		}
-		
-		for(Entity e : entitiesToDestroy) {
+
+		for (final Entity e : entitiesToDestroy) {
 			entities.remove(e);
 		}
 	}
-	
-	public Iterator<Entity> entitiesIterator() {
+
+	@Override
+	public Iterator<Entity> iterator() {
 		return entities.iterator();
 	}
 }
