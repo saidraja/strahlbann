@@ -6,8 +6,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import org.newdawn.slick.util.Log;
 
 import de.rayban.core.level.Level;
+import de.rayban.core.level.LevelLoadException;
 import de.rayban.core.level.LevelLoader;
 import de.rayban.core.logic.GameLogic;
 import de.rayban.game.StrahlBann;
@@ -21,7 +23,7 @@ public class InGameState extends StrahlBannGameState {
 
 	private GameLogic gameLogic;
 
-	private int currentLevelCounter = 1;
+	private int currentLevelCounter = 0;
 
 	private Level currentLevel;
 
@@ -33,9 +35,7 @@ public class InGameState extends StrahlBannGameState {
 	public void init(final GameContainer container, final StrahlBann game) {
 		// GameLogic initialisieren
 		gameLogic = GameLogic.start(game.getEntityManager());
-
-		currentLevel = LevelLoader.loadLevel(currentLevelCounter);
-		currentLevel.initLevel(game, this, gameLogic);
+		loadNextLevel(game);
 	}
 
 	@Override
@@ -52,9 +52,17 @@ public class InGameState extends StrahlBannGameState {
 		currentLevel.update(container, game, delta);
 
 		if (currentLevel.isLevelCompleted() == true) {
+			loadNextLevel(game);
+		}
+	}
+
+	private void loadNextLevel(final StrahlBann game) {
+		try {
 			currentLevelCounter++;
 			currentLevel = LevelLoader.loadLevel(currentLevelCounter);
 			currentLevel.initLevel(game, this, gameLogic);
+		} catch (final LevelLoadException e) {
+			Log.error("Loading of level " + currentLevelCounter + " failed.", e);
 		}
 	}
 
