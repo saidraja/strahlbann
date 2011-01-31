@@ -6,6 +6,8 @@ import java.util.Map;
 public class Logger {
 	private static final Map<Class<?>, Logger> loggers = new HashMap<Class<?>, Logger>();
 
+	private static final MessageWorker mw = new MessageWorkerImpl();
+
 	private final int loggingInterval;
 
 	private final Map<String, Long> notes = new HashMap<String, Long>();
@@ -32,7 +34,7 @@ public class Logger {
 	}
 
 	public void writeNote(final String msg){
-		System.out.println("NOTE ["+loggerClass.getCanonicalName()+"]: " + msg);
+		mw.doMessage(new Message(msg, loggerClass), MessageWorker.note);
 	}
 
 	public static Logger instance(final Class<?> clazz){
