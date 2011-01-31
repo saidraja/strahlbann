@@ -63,6 +63,11 @@ public class EntityManager implements Iterable<Entity> {
 		}
 	}
 
+	/**
+	 * Rendern in Abhängigkeit des gerade gewählten Game-States
+	 * @param g
+	 * @param gs
+	 */
 	public void render(final Graphics g, final GameState gs) {
 		for (final Entity e : entities) {
 			if (e.render()) {

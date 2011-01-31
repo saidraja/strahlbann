@@ -1,9 +1,12 @@
 package de.rayban.core.logic;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import de.rayban.core.Entity;
 import de.rayban.core.EntityManager;
+import de.rayban.core.GameArea;
 import de.rayban.game.actors.Enemy;
 
 /**
@@ -19,6 +22,9 @@ public class GameLogic {
 	/** erspielte Punkte */
 	private long score = 0L;
 
+	/** Spielzonen die eine besondere Auswirkung auf Entities haben */
+	private List<GameArea> areas;
+
 	private static GameLogic instance;
 
 	private EntityManager manager;
@@ -30,6 +36,7 @@ public class GameLogic {
 		instance = new GameLogic();
 		instance.manager = entityManager;
 		instance.manager.add(new Enemy());
+		instance.initGameAreas();
 		return instance;
 	}
 
@@ -38,17 +45,43 @@ public class GameLogic {
 	 * @param delta TODO
 	 */
 	public void update(final int delta){
-		updateScore();
-	}
-
-	private void updateScore() {
 		final Iterator<Entity> entitiesIterator = manager.iterator();
 		while(entitiesIterator.hasNext()) {
 			final Entity entity = entitiesIterator.next();
-			if(entity.hitable() != null && entity.hitable().hitReceived()) {
-				score += entity.hitable().hitScore();
+			updateScore(entity);
+			updateGameAreaEntityRelation(entity);
+		}
+		manager.update(delta);
+	}
+
+	private void initGameAreas() {
+		areas = new ArrayList<GameArea>();
+		// TODO
+	}
+
+	/**
+	 * Prüft auf Kollisionen bzw. vollständige Überlappungen von Entities
+	 * und GameAreas.
+	 */
+	private void updateGameAreaEntityRelation(final Entity entity) {
+		if(entity.gameAreaAware() != null) {
+			for(final GameArea g : areas) {
+				if(g.contains(entity.gameAreaAware()) && g.isLethal()){
+					entity.destroy();
+				}
+				// Aktionen ausführen
 			}
 		}
+	}
+
+	private void updateScore(final Entity entity) {
+		if(entity.hitable() != null && entity.hitable().hitReceived()) {
+			score += entity.hitable().hitScore();
+		}
+	}
+
+	public String currentScore() {
+		return String.valueOf(score);
 	}
 
 	//
@@ -56,9 +89,5 @@ public class GameLogic {
 	//
 	public EntityManager getEntityManager() {
 		return manager;
-	}
-
-	public String currentScore() {
-		return String.valueOf(score);
 	}
 }

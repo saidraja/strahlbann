@@ -16,6 +16,16 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	private final boolean destroyed = false;
 
+	/**
+	 * Position der Enity auf der X-Achse
+	 */
+	private float x;
+
+	/**
+	 * Position der Entity auf der Y-Achse
+	 */
+	private float y;
+
 	@Override
 	public boolean destroy() {
 //		if(destroyed == false) {
@@ -47,7 +57,14 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	@Override
 	public void draw(final Graphics g) {
-		// NOOP
+		g.pushTransform();
+		g.translate(x, y);
+		drawCallback(g);
+		g.popTransform();
+	}
+
+	protected void drawCallback(final Graphics g){
+
 	}
 
 	@Override
@@ -118,5 +135,21 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	@Override
 	public GameAreaAware gameAreaAware() {
 		return null;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(final float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(final float y) {
+		this.y = y;
 	}
 }
