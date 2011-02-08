@@ -64,13 +64,14 @@ public class GameLogic {
 	 * und GameAreas.
 	 */
 	private void updateGameAreaEntityRelation(final Entity entity) {
-		if(entity.gameAreaAware() != null) {
-			for(final GameArea g : areas) {
-				if(g.contains(entity.gameAreaAware()) && g.isLethal()){
-					entity.destroy();
-				}
-				// Aktionen ausführen
+		if(entity.gameAreaAware() == null) {
+			return;
+		}
+		for(final GameArea g : areas) {
+			if(g.contains(entity.gameAreaAware()) && g.isLethal()){
+				entity.destroy();
 			}
+			// Aktionen ausführen
 		}
 	}
 
