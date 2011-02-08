@@ -8,11 +8,13 @@ public class Logger {
 
 	private static final MessageWorker mw = new MessageWorkerImpl();
 
-	private final int loggingInterval;
-
 	private final Map<String, Long> notes = new HashMap<String, Long>();
 
 	private final Class<?> loggerClass;
+
+	private int loggingInterval;
+
+	private int logLevel = MessageWorker.note;
 
 	private Logger(final Class<?> loggerClass){
 		loggingInterval = 1000; // 1 Sekunde
@@ -20,6 +22,9 @@ public class Logger {
 	}
 
 	public void note(final String msg){
+		if(logLevel > MessageWorker.note)
+			return;
+
 		if(notes.containsKey(msg) == false){
 			writeNote(msg);
 			notes.put(msg, System.currentTimeMillis());
@@ -33,7 +38,7 @@ public class Logger {
 		}
 	}
 
-	public void writeNote(final String msg){
+	private void writeNote(final String msg){
 		mw.doMessage(new Message(msg, loggerClass), MessageWorker.note);
 	}
 
@@ -44,5 +49,21 @@ public class Logger {
 
 		loggers.put(clazz, new Logger(clazz));
 		return loggers.get(clazz);
+	}
+
+	public int getLoggingInterval() {
+		return loggingInterval;
+	}
+
+	public void setLoggingInterval(final int loggingInterval) {
+		this.loggingInterval = loggingInterval;
+	}
+
+	public int getLogLevel() {
+		return logLevel;
+	}
+
+	public void setLogLevel(final int logLevel) {
+		this.logLevel = logLevel;
 	}
 }

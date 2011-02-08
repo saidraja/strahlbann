@@ -8,6 +8,7 @@ import de.rayban.core.EntityHitListener;
 import de.rayban.core.GameAreaAware;
 import de.rayban.core.Hitable;
 import de.rayban.game.StrahlBann;
+import de.rayban.log.Logger;
 
 /**
  *
@@ -19,17 +20,21 @@ public class Enemy extends BaseEntity {
 
 	private int lastTick = 0;
 
+	private final Logger log = Logger.instance(Enemy.class);
+
 	@Override
 	public void update(final int delta) {
-		if(lastTick == 0){
-			lastTick = delta;
+		lastTick += delta;
+
+		if(lastTick > 40){
+			final float x = getX();
+			setX(x+10);
+			lastTick = 0;
 		}
 
-		final int tickDiff = delta - lastTick;
-		if(tickDiff > 100){
-			setX(getX()+10);
+		if(getX() > 200){
+			setX(0);
 		}
-		lastTick = delta;
 	}
 
 	@Override
