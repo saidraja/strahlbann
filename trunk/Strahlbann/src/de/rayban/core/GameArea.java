@@ -25,11 +25,25 @@ public class GameArea implements Entity {
 
 	/**
 	 *
-	 * @param rec
+	 * @param rec Die Entity die mit dieser GameArea kollidiert
 	 * @return true wenn eine Überschneidung des GameAreaAwares und der GameArea vorliegt
 	 */
 	public boolean intersects(final GameAreaAware rec) {
 		return area.intersects(rec.collisionShape());
+	}
+
+	public float [] calcCollisionVector(final GameAreaAware rec){
+		final float[] gaaPoints = rec.collisionShape().getPoints();
+		final int pointCount = area.getPointCount();
+		for(int i = 0; i<pointCount-1; i++){
+			final float[] p1 = area.getPoint(i);
+			final float[] p2 = area.getPoint(i+1);
+
+			// Linie zwischen den Punkten konstruieren
+			final float[] normal = getNormal(p1, p2);
+		}
+
+		return null;
 	}
 
 	/**
@@ -93,4 +107,13 @@ public class GameArea implements Entity {
 	public boolean render() {
 		return false;
 	}
+
+    private float[] getNormal(final float[] start, final float[] end) {
+		float dx = start[0] - end[0];
+		float dy = start[1] - end[1];
+		final float len = (float) Math.sqrt((dx*dx)+(dy*dy));
+		dx /= len;
+		dy /= len;
+		return new float[] {-dy,dx};
+    }
 }
