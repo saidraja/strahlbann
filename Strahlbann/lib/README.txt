@@ -1,1 +1,0 @@
-Hier sind alle Libraries enthalten die das Projekt benötigt (auch Testlibraries).
