@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>RayBan</groupId>
+  <artifactId>RayBan</artifactId>
+  <name>Strahlbann</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <url>http://code.google.com/p/strahlbann/</url>
+  <build>
+  	<sourceDirectory>src\main\java</sourceDirectory>
+  	<testSourceDirectory>src\test\java</testSourceDirectory>
+  </build>
+  <repositories>
+  	<repository>
+  		<id>cokeandcode</id>
+  		<name>http://slick.cokeandcode.com/mavenrepo</name>
+  		<url>http://slick.cokeandcode.com/mavenrepo</url>
+  	</repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+    <dependency>
+    	<groupId>slick</groupId>
+    	<artifactId>slick</artifactId>
+    	<version>274</version>
+    	<scope>runtime</scope>
+    </dependency>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.8.2</version>
+    </dependency>
+  </dependencies>
+</project>
