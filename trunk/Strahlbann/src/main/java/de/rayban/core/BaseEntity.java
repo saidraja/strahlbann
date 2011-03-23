@@ -1,9 +1,14 @@
 package de.rayban.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
+
+import de.rayban.animation.IAnimation;
 
 /**
  *
@@ -26,6 +31,8 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 	 */
 	private float y;
 
+	private List<IAnimation> animations = new ArrayList<IAnimation>();
+
 	@Override
 	public boolean destroy() {
 //		if(destroyed == false) {
@@ -35,11 +42,17 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 		return false;
 	}
 
+	/**
+	 * Die BaseEntity empfängt keine Keyboard-Events.
+	 */
 	@Override
 	public KeyListener receiveKeyboardEvents() {
 		return null;
 	}
 
+	/**
+	 * Die BaseEntity empfängt keine Mouse-Events.
+	 */
 	@Override
 	public MouseListener receiveMouseEvents() {
 		return null;
@@ -47,7 +60,20 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	@Override
 	public void update(final int delta) {
-		// NOOP
+		for(final IAnimation anim : animations){
+			anim.animate(this, delta);
+		}
+		updateCallback(delta);
+	}
+
+	/**
+	 * Hook für Klassen die BaseEntity implementieren und
+	 * während der Update-Phase Code ausführen möchten.
+	 *
+	 * @param delta
+	 */
+	protected void updateCallback(final int delta){
+
 	}
 
 	@Override
@@ -55,6 +81,7 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 		return visibleForStates;
 	}
 
+	/** TODO Methode final machen */
 	@Override
 	public void draw(final Graphics g) {
 		g.pushTransform();
@@ -63,6 +90,11 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 		g.popTransform();
 	}
 
+	/**
+	 * Hook für Klasen die baseEntity implementierern und
+	 * während der Draw-Phase eigene Zeichen Operationen ausführen möchten.
+	 * @param g
+	 */
 	protected void drawCallback(final Graphics g){
 
 	}
@@ -151,5 +183,13 @@ public class BaseEntity implements Entity, MouseListener, KeyListener {
 
 	public void setY(final float y) {
 		this.y = y;
+	}
+
+	public List<IAnimation> getAnimations() {
+		return animations;
+	}
+
+	public void setAnimations(final List<IAnimation> animations) {
+		this.animations = animations;
 	}
 }
