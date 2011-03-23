@@ -3,12 +3,13 @@ package de.rayban.game.actors;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.MouseListener;
 
+import de.rayban.animation.IAnimation;
+import de.rayban.animation.LinearTranslation;
 import de.rayban.core.BaseEntity;
 import de.rayban.core.EntityHitListener;
 import de.rayban.core.GameAreaAware;
 import de.rayban.core.Hitable;
 import de.rayban.game.StrahlBann;
-import de.rayban.log.Logger;
 
 /**
  *
@@ -18,23 +19,10 @@ import de.rayban.log.Logger;
 public class Enemy extends BaseEntity {
 	private final Hitable hitable = new EntityHitListener();
 
-	private int lastTick = 0;
-
-	private final Logger log = Logger.instance(Enemy.class);
-
-	@Override
-	public void update(final int delta) {
-		lastTick += delta;
-
-		if(lastTick > 40){
-			final float x = getX();
-			setX(x+10);
-			lastTick = 0;
-		}
-
-		if(getX() > 200){
-			setX(0);
-		}
+	public Enemy() {
+		super();
+		getAnimations().add(new LinearTranslation(0, 40, 3, 0).pause());
+		getAnimations().add(new LinearTranslation(0, 40, 0, 3).pause());
 	}
 
 	@Override
@@ -44,7 +32,8 @@ public class Enemy extends BaseEntity {
 
 	@Override
 	public boolean destroy() {
-		return hitable.hitReceived();
+//		return hitable.hitReceived();
+		return false;
 	}
 
 	@Override
@@ -59,6 +48,9 @@ public class Enemy extends BaseEntity {
 
 	@Override
 	public void mouseClicked(final int button, final int x, final int y, final int clickCount) {
+		for(final IAnimation anim : getAnimations()){
+			anim.start();
+		}
 		hitable.hit();
 	}
 

@@ -5,6 +5,8 @@ import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.geom.Shape;
 
+import de.rayban.log.Logger;
+
 
 /**
  * Repräsentiert eine Zone im Spiel mit einer "möglicherweise" speziellen Eigenschaft.
@@ -18,6 +20,8 @@ public class GameArea implements Entity {
 	private boolean lethal;
 
 	private final Shape area;
+
+	private static Logger log = Logger.instance(GameArea.class);
 
 	public GameArea(final Shape area){
 		this.area = area;
@@ -35,12 +39,18 @@ public class GameArea implements Entity {
 	public float [] calcCollisionVector(final GameAreaAware rec){
 		final float[] gaaPoints = rec.collisionShape().getPoints();
 		final int pointCount = area.getPointCount();
-		for(int i = 0; i<pointCount-1; i++){
+		for(int i = 0; i<pointCount; i++){
 			final float[] p1 = area.getPoint(i);
-			final float[] p2 = area.getPoint(i+1);
+			float[] p2;
+			if(i<pointCount-1){
+				p2 = area.getPoint(i+1);
+			} else {
+				p2 = area.getPoint(0);
+			}
 
 			// Linie zwischen den Punkten konstruieren
 			final float[] normal = getNormal(p1, p2);
+			log.note(String.valueOf(normal[0]) + " " + String.valueOf(normal[1]));
 		}
 
 		return null;
