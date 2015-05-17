@@ -1,0 +1,1 @@
+Strahlbann is a simple 2D Arcade Game based on Java and the Game API Slick.
